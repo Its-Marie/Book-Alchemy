@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head><title>Library</title></head>
+<head>
+  <title>Library</title>
+</head>
 <body>
   <h1>Library</h1>
+
+  <!-- Sortierung -->
+  <h2>Sort By:</h2>
+  <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a>
+
+  <!-- Bücherliste -->
   <ul>
     {% for book in books %}
-      <li>{{ book.title }} by {{ book.author.name }}</li>
+    <li>
+      <a href="/book/{{ book.id }}"><strong>{{ book.title }}</strong></a>
+      by <a href="/author/{{ book.author.id }}">{{ book.author.name }}</a>
+      {% if book.rating %}
+        - Rating: {{ book.rating }}/10
+      {% endif %}
+
+      <!-- Delete Author Button -->
+      <form action="/author/{{ book.author.id }}/delete" method="POST" style="display:inline;">
+        <button type="submit">Delete Author</button>
+      </form>
+    </li>
     {% endfor %}
   </ul>
-  <h2>Sort By:</h2>
-    <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a>
+
 </body>
 </html>

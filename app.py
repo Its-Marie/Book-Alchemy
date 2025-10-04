@@ -37,6 +37,11 @@ def add_book():
 
     return render_template("add_book.html", authors=authors)
 
+@app.route("/")
+def home():
+    books = Book.query.all()
+    return render_template("home.html", books=books)
+
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))

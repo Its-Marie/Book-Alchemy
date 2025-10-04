@@ -19,6 +19,24 @@ def add_author():
 
     return render_template("add_author.html")
 
+@app.route("/add_book", methods=["GET", "POST"])
+def add_book():
+    authors = Author.query.all()
+
+    if request.method == "POST":
+        isbn = request.form["isbn"]
+        title = request.form["title"]
+        year = request.form["publication_year"]
+        author_id = request.form["author_id"]
+
+        new_book = Book(isbn=isbn, title=title, publication_year=year, author_id=author_id)
+        db.session.add(new_book)
+        db.session.commit()
+        flash("Book added successfully!", "success")
+        return redirect(url_for("add_book"))
+
+    return render_template("add_book.html", authors=authors)
+
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))

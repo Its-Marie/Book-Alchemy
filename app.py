@@ -11,5 +11,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data
 
 db.init_app(app)
 
+#with app.app_context():
+#    db.create_all()
+
+
 if __name__ == "__main__":
     app.run(port=5005, debug=True)

@@ -50,6 +50,15 @@ def search():
         results = Book.query.filter(Book.title.like(f"%{keyword}%")).all()
     return render_template("search.html", results=results)
 
+@app.route("/", methods=["GET"])
+def home():
+    sort_by = request.args.get("sort", "title")  # default sort by title
+    if sort_by == "author":
+        books = Book.query.join(Author).order_by(Author.name).all()
+    else:
+        books = Book.query.order_by(Book.title).all()
+    return render_template("home.html", books=books, sort_by=sort_by)
+
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))

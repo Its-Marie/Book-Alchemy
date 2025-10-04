@@ -42,6 +42,14 @@ def home():
     books = Book.query.all()
     return render_template("home.html", books=books)
 
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    results = []
+    if request.method == "POST":
+        keyword = request.form["keyword"]
+        results = Book.query.filter(Book.title.like(f"%{keyword}%")).all()
+    return render_template("search.html", results=results)
+
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))

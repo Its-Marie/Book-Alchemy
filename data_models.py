@@ -23,3 +23,13 @@ class Book(db.Model):
 
     def __str__(self):
         return f"{self.title} ({self.publication_year})"
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    isbn = db.Column(db.String(20), unique=True, nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    publication_year = db.Column(db.String(4))
+    rating = db.Column(db.Integer)  # Neue Spalte
+    author_id = db.Column(db.Integer, db.ForeignKey("author.id"), nullable=False)
+
+    author = db.relationship("Author", backref="books")

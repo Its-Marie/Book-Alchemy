@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from data_models import db, Author, Book
 from flask import render_template, request, redirect, url_for, flash
 
+app = Flask(__name__)
+
+
 @app.route("/add_author", methods=["GET", "POST"])
 def add_author():
     if request.method == "POST":
@@ -59,7 +62,16 @@ def home():
         books = Book.query.order_by(Book.title).all()
     return render_template("home.html", books=books, sort_by=sort_by)
 
-app = Flask(__name__)
+@app.route("/book/<int:book_id>")
+def book_detail(book_id):
+    book = Book.query.get_or_404(book_id)
+    return render_template("book_detail.html", book=book)
+
+@app.route("/author/<int:author_id>")
+def author_detail(author_id):
+    author = Author.query.get_or_404(author_id)
+    return render_template("author_detail.html", author=author)
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data/library.sqlite')}"

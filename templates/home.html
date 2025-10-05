@@ -30,11 +30,11 @@
   <div class="book-grid">
     {% for book in books %}
     <div class="book-card">
-      <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+      <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-L.jpg"
            alt="{{ book.title }}"
-           onerror="this.src='https://via.placeholder.com/200x250/6cc06e/ffffff?text=No+Cover'">
-      <h3>{{ book.title }}</h3>
-      <p>{{ book.author.name }}</p>
+           onerror="this.src='https://via.placeholder.com/200x300/6cc06e/ffffff?text=No+Cover'">
+      <h3><a href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a></h3>
+      <p><a href="{{ url_for('author_detail', author_id=book.author.id) }}">{{ book.author.name }}</a></p>
 
       <form action="/book/{{ book.id }}/delete" method="POST">
         <button type="submit" class="delete-btn">Delete</button>

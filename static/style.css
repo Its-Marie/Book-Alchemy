@@ -269,3 +269,19 @@ header {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(108, 192, 110, 0.3);
 }
+
+/* ========== BOOK CARD LINKS ========== */
+.book-card h3 a,
+.book-card p a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
+}
+
+.book-card h3 a:hover {
+  color: #6cc06e;
+}
+
+.book-card p a:hover {
+  color: #5a9fd4;
+}

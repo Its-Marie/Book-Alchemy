@@ -1,20 +1,43 @@
 <!DOCTYPE html>
-<html>
-<head><title>Add Book</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Book</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-  <h1>Add Book</h1>
-  <form method="POST">
-    ISBN: <input type="text" name="isbn" required><br>
-    Title: <input type="text" name="title" required><br>
-    Year: <input type="text" name="publication_year"><br>
-    Author:
-    <select name="author_id">
-      {% for author in authors %}
-        <option value="{{ author.id }}">{{ author.name }}</option>
-      {% endfor %}
-    </select><br>
-    <input type="submit" value="Add Book">
-    Rating (1-10): <input type="number" name="rating" min="1" max="10"><br>
-  </form>
+  <div class="container">
+    <div class="header">
+      <h1>Add Book</h1>
+      <div class="nav">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('add_author') }}">Add Author</a>
+      </div>
+    </div>
+
+    <form method="POST" class="form">
+      <label for="isbn">ISBN:</label>
+      <input type="text" id="isbn" name="isbn" required>
+
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="publication_year">Publication Year:</label>
+      <input type="text" id="publication_year" name="publication_year">
+
+      <label for="rating">Rating (1-10):</label>
+      <input type="number" id="rating" name="rating" min="1" max="10">
+
+      <label for="author_id">Author:</label>
+      <select id="author_id" name="author_id" required>
+        <option value="">-- Select Author --</option>
+        {% for author in authors %}
+          <option value="{{ author.id }}">{{ author.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+  </div>
 </body>
 </html>

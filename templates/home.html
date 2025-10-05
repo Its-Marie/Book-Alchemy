@@ -9,32 +9,51 @@
 
   <header>My Book Collection</header>
 
+  <!-- Navigation -->
+  <div style="text-align: center; padding: 20px;">
+    <a href="{{ url_for('add_author') }}" class="nav-btn">Add Author</a>
+    <a href="{{ url_for('add_book') }}" class="nav-btn">Add Book</a>
+  </div>
+
+  <!-- Flash Messages -->
   {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      {% for category, message in messages %}
-        <div class="flash flash-{{ category }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-<div style="text-align: center; padding: 20px;">
-  <a href="{{ url_for('add_author') }}" style="margin: 0 10px; padding: 10px 20px; background-color: #6cc06e; color: white; text-decoration: none; border-radius: 8px;">Add Author</a>
-  <a href="{{ url_for('add_book') }}" style="margin: 0 10px; padding: 10px 20px; background-color: #6cc06e; color: white; text-decoration: none; border-radius: 8px;">Add Book</a>
-</div>
-<div class="book-grid">
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Book Grid -->
   <div class="book-grid">
     {% for book in books %}
     <div class="book-card">
-        <img src="{{ url_for('static', filename='placeholder.jpg') }}" alt="{{ book.title }}">
+      <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+           alt="{{ book.title }}"
+           onerror="this.src='https://via.placeholder.com/200x250/6cc06e/ffffff?text=No+Cover'">
       <h3>{{ book.title }}</h3>
       <p>{{ book.author.name }}</p>
 
-      <form action="/author/{{ book.id }}/delete" method="POST">
+      <form action="/book/{{ book.id }}/delete" method="POST">
         <button type="submit" class="delete-btn">Delete</button>
       </form>
     </div>
     {% endfor %}
+  </div>
+
+  <!-- Sort and Search Controls -->
+  <div class="controls">
+    <div class="sort-buttons">
+      <a href="/?sort=title" class="control-btn">Sort by Title</a>
+      <a href="/?sort=author" class="control-btn">Sort by Author</a>
+    </div>
+
+    <form action="/search" method="POST" class="search-form">
+      <input type="text" name="keyword" placeholder="Search by title..." required>
+      <button type="submit" class="control-btn search-btn">Search</button>
+    </form>
   </div>
 
 </body>

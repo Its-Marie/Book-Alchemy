@@ -5,7 +5,7 @@ from data_models import db, Author, Book
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
-# Datenbank konfigurieren
+# Configure database
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"sqlite:///{os.path.join(basedir, 'data/library.sqlite')}"
@@ -69,7 +69,7 @@ def add_book():
     return render_template("add_book.html", authors=authors)
 
 
-# Homepage mit Sortierung
+# Homepage with sorting
 @app.route("/", methods=["GET"])
 def home():
     sort_by = request.args.get("sort", "title")
@@ -80,7 +80,7 @@ def home():
     return render_template("home.html", books=books)
 
 
-# Suche
+# Search
 @app.route("/search", methods=["POST"])
 def search():
     keyword = request.form["keyword"]
@@ -88,21 +88,21 @@ def search():
     return render_template("search.html", results=results)
 
 
-# Buch Detailseite
+# Book detail page
 @app.route("/book/<int:book_id>")
 def book_detail(book_id):
     book = Book.query.get_or_404(book_id)
     return render_template("book_detail.html", book=book)
 
 
-# Autor Detailseite
+# Author detail page
 @app.route("/author/<int:author_id>")
 def author_detail(author_id):
     author = Author.query.get_or_404(author_id)
     return render_template("author_detail.html", author=author)
 
 
-# Buch löschen
+# Delete book
 @app.route("/book/<int:book_id>/delete", methods=["POST"])
 def delete_book(book_id):
     book = Book.query.get_or_404(book_id)
@@ -112,7 +112,7 @@ def delete_book(book_id):
     return redirect(url_for("home"))
 
 
-# Autor löschen (inkl. Bücher)
+# Delete author (including their books)
 @app.route("/author/<int:author_id>/delete", methods=["POST"])
 def delete_author(author_id):
     author = Author.query.get_or_404(author_id)
@@ -122,9 +122,9 @@ def delete_author(author_id):
     return redirect(url_for("home"))
 
 
-# FIX: Datenbank nur erstellen, wenn sie nicht existiert
+# Create database tables if they don't exist
 with app.app_context():
-    db.create_all()  # Entfernt db.drop_all()
+    db.create_all()
 
 if __name__ == "__main__":
     app.run(port=5005, debug=True)

@@ -1,32 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Library</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>Library</h1>
 
-  <!-- Sortierung -->
-  <h2>Sort By:</h2>
-  <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a>
+  <header>My Book Collection</header>
 
-  <!-- Bücherliste -->
-  <ul>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+<div style="text-align: center; padding: 20px;">
+  <a href="{{ url_for('add_author') }}" style="margin: 0 10px; padding: 10px 20px; background-color: #6cc06e; color: white; text-decoration: none; border-radius: 8px;">Add Author</a>
+  <a href="{{ url_for('add_book') }}" style="margin: 0 10px; padding: 10px 20px; background-color: #6cc06e; color: white; text-decoration: none; border-radius: 8px;">Add Book</a>
+</div>
+<div class="book-grid">
+  <div class="book-grid">
     {% for book in books %}
-    <li>
-      <a href="/book/{{ book.id }}"><strong>{{ book.title }}</strong></a>
-      by <a href="/author/{{ book.author.id }}">{{ book.author.name }}</a>
-      {% if book.rating %}
-        - Rating: {{ book.rating }}/10
-      {% endif %}
+    <div class="book-card">
+        <img src="{{ url_for('static', filename='placeholder.jpg') }}" alt="{{ book.title }}">
+      <h3>{{ book.title }}</h3>
+      <p>{{ book.author.name }}</p>
 
-      <!-- Delete Author Button -->
-      <form action="/author/{{ book.author.id }}/delete" method="POST" style="display:inline;">
-        <button type="submit">Delete Author</button>
+      <form action="/author/{{ book.id }}/delete" method="POST">
+        <button type="submit" class="delete-btn">Delete</button>
       </form>
-    </li>
+    </div>
     {% endfor %}
-  </ul>
+  </div>
 
 </body>
 </html>

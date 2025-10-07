@@ -1,4 +1,35 @@
-<h1>{{ book.title }}</h1>
-<p>Author: <a href="/author/{{ book.author.id }}">{{ book.author.name }}</a></p>
-<p>ISBN: {{ book.isbn }}</p>
-<p>Year: {{ book.publication_year }}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ book.title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>{{ book.title }}</header>
+
+  <!-- Navigation -->
+  <div class="navbar">
+    <a href="{{ url_for('home') }}" class="nav-btn">Home</a>
+    <a href="{{ url_for('add_author') }}" class="nav-btn">Add Author</a>
+    <a href="{{ url_for('add_book') }}" class="nav-btn">Add Book</a>
+  </div>
+
+  <div class="container">
+    <h2 class="detail-header">Book Details</h2>
+
+    <p><strong>Title:</strong> {{ book.title }}</p>
+    <p><strong>Author:</strong>
+      <a href="{{ url_for('author_detail', author_id=book.author.id) }}">
+        {{ book.author.name }}
+      </a>
+    </p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Publication Year:</strong> {{ book.publication_year }}</p>
+
+    {% if book.rating %}
+      <p><strong>Rating:</strong> {{ book.rating }}/10</p>
+    {% endif %}
+  </div>
+</body>
+</html>

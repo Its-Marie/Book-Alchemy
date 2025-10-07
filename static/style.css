@@ -285,3 +285,39 @@ header {
 .book-card p a:hover {
   color: #5a9fd4;
 }
+
+/* ========== DETAIL PAGES ========== */
+.navbar {
+  text-align: center;
+  padding: 20px;
+}
+
+.book-list {
+  list-style: none;
+  padding: 0;
+}
+
+.book-list li {
+  margin: 10px 0;
+}
+
+.book-list a {
+  color: #5a9fd4;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.book-list a:hover {
+  color: #4a8bc2;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.detail-header {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}

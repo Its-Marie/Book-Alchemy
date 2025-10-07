@@ -1,9 +1,43 @@
-<h1>{{ author.name }}</h1>
-<p>Birth: {{ author.birth_date }}</p>
-<p>Death: {{ author.date_of_death }}</p>
-<h2>Books:</h2>
-<ul>
-  {% for book in author.books %}
-    <li><a href="/book/{{ book.id }}">{{ book.title }}</a></li>
-  {% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ author.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>{{ author.name }}</header>
+
+  <!-- Navigation -->
+  <div class="navbar">
+    <a href="{{ url_for('home') }}" class="nav-btn">Home</a>
+    <a href="{{ url_for('add_author') }}" class="nav-btn">Add Author</a>
+    <a href="{{ url_for('add_book') }}" class="nav-btn">Add Book</a>
+  </div>
+
+  <div class="container">
+    <h2 class="detail-header">Author Details</h2>
+
+    {% if author.birth_date %}
+      <p><strong>Birth:</strong> {{ author.birth_date }}</p>
+    {% endif %}
+
+    {% if author.date_of_death %}
+      <p><strong>Death:</strong> {{ author.date_of_death }}</p>
+    {% endif %}
+
+    <h3 class="section">Books by {{ author.name }}:</h3>
+    {% if author.books %}
+      <ul class="book-list">
+        {% for book in author.books %}
+          <li>
+            <a href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No books found for this author.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
